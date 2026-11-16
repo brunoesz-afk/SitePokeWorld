@@ -49,7 +49,7 @@
         <a class="game-menu-primary" href="#inicio">Principal</a>
         <a href="#novidades">Novidades</a>
         <a href="#instalar">Download</a>
-        <a href="#instalar">Como jogar</a>
+        <a href="#ajuda">Dúvidas</a>
       </nav>
 
       <section class="game-dashboard" id="novidades">
@@ -64,10 +64,14 @@
           <article class="featured-news">
             <img class="news-art" src="game.jpg" alt="Paisagem do mundo de PokeWorld">
             <div class="news-content">
-              <p class="news-tag">NOVIDADE</p>
-              <h3>Uma nova região está esperando por você</h3>
-              <p>Explore caminhos inéditos, encontre criaturas especiais e prepare sua equipe para uma jornada ainda maior.</p>
-              <span class="news-date">Atualização da temporada</span>
+              <p class="news-tag">ÚLTIMA ATUALIZAÇÃO</p>
+              <h3>Novidades da versão</h3>
+              <div class="release-meta">
+                <span>VERSÃO <strong id="release-version">Carregando...</strong></span>
+                <span>PUBLICADA <time id="release-date">—</time></span>
+              </div>
+              <p class="release-notes" id="release-notes" aria-live="polite">Buscando notas da atualização...</p>
+              <a class="release-link" id="release-page-link" href="https://github.com/brunoesz-afk/SitePokeWorld/releases/latest" target="_blank" rel="noopener noreferrer">Ver release no GitHub <span aria-hidden="true">↗</span></a>
             </div>
           </article>
         </div>
@@ -123,6 +127,31 @@
           </li>
         </ol>
       </section>
+
+      <section class="faq-section" id="ajuda">
+        <div class="faq-heading">
+          <p class="eyebrow dark-eyebrow">PRECISA DE AJUDA?</p>
+          <h2>Perguntas<br>frequentes.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Como instalo o APK no Android?</summary>
+            <p>Baixe o arquivo, abra-o e siga as instruções do Android. Se solicitado, permita temporariamente a instalação de apps pelo navegador usado no download.</p>
+          </details>
+          <details>
+            <summary>O Android bloqueou a instalação. O que faço?</summary>
+            <p>Nas configurações do Android, autorize a instalação de apps desconhecidos para o navegador usado e tente abrir o APK novamente. Os nomes dos menus podem variar conforme o aparelho.</p>
+          </details>
+          <details>
+            <summary>O botão de download não aparece ou não funciona?</summary>
+            <p>Verifique sua conexão e tente novamente. Você também pode abrir a <a href="https://github.com/brunoesz-afk/SitePokeWorld/releases/latest" target="_blank" rel="noopener noreferrer">página de releases do projeto</a> e baixar o APK publicado mais recentemente.</p>
+          </details>
+          <details>
+            <summary>Como vejo a versão e as novidades?</summary>
+            <p>A versão, a data de publicação e as notas são carregadas da release mais recente do projeto, na seção <a href="#novidades">Novidades do jogo</a>.</p>
+          </details>
+        </div>
+      </section>
     </main>
 
     <footer class="footer">
@@ -131,6 +160,7 @@
         <span>POKE<span class="brand-accent">WORLD</span></span>
       </a>
       <span class="footer-copy">Uma nova jornada começa com um passo.</span>
+      <a class="footer-top" href="#ajuda">Dúvidas <span aria-hidden="true">↗</span></a>
       <a class="footer-top" href="#inicio">Voltar ao topo <span aria-hidden="true">↑</span></a>
     </footer>
   </body>
