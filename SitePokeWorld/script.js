@@ -26,7 +26,9 @@ async function checkApk() {
     if (!response.ok) throw new Error("No published release");
 
     const release = await response.json();
-    const apk = release.assets.find((asset) => asset.name === "PokeWorld.apk");
+    const apk =
+      release.assets.find((asset) => asset.name === "PokeWorld.apk") ??
+      release.assets.find((asset) => /\.apk$/i.test(asset.name));
     if (!apk) throw new Error("APK not found in latest release");
 
     downloadButton.href = apk.browser_download_url;

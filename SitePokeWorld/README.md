@@ -4,7 +4,7 @@ Página estática de download do PokeWorld para Android.
 
 ## Publicar o APK
 
-Crie uma Release pública no repositório GitHub e anexe o arquivo com o nome exato `PokeWorld.apk`. A página consulta a última Release e libera o botão de download quando encontra esse asset. Não é necessário adicionar o APK ao Git comum.
+Crie uma Release pública no repositório GitHub e anexe o APK. A página consulta a última Release e libera o botão quando encontra um arquivo `.apk`; se houver um arquivo chamado `PokeWorld.apk`, ele terá preferência. Não é necessário adicionar o APK ao Git comum.
 
 ## Testar localmente
 
