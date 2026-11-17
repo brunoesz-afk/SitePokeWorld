@@ -199,6 +199,77 @@ h1 {
 .game-menu-primary { background: var(--violet); color: white; }
 .game-menu a:not(.game-menu-primary):hover { background: rgba(98, 91, 208, .09); }
 
+.account-section {
+  padding: 66px 10%;
+  display: grid;
+  grid-template-columns: minmax(220px, .7fr) minmax(0, 1.3fr);
+  align-items: start;
+  gap: 8%;
+  background: #e8e9f8;
+}
+.account-heading h2 { margin: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; }
+.account-heading > p:last-child { max-width: 310px; color: #68708e; font-size: 13px; line-height: 1.7; }
+.account-panel {
+  min-width: 0;
+  padding: 25px;
+  border: 1px solid rgba(23, 26, 54, .15);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 8px 0 rgba(32, 36, 95, .08);
+}
+.account-panel h2 { margin: 0; font-size: 18px; }
+.account-hint, .party-heading p { margin: 5px 0 18px; color: var(--muted); font-size: 12px; }
+.account-panel form label { display: grid; gap: 6px; margin-bottom: 14px; color: #505477; font-size: 11px; font-weight: 700; }
+.account-panel input, .account-panel textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 11px;
+  border: 1px solid rgba(23, 26, 54, .2);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  font: 13px var(--display);
+}
+.account-panel textarea { resize: vertical; }
+.account-panel input:focus-visible, .account-panel textarea:focus-visible, .account-panel button:focus-visible {
+  outline: 3px solid rgba(98, 91, 208, .35);
+  outline-offset: 2px;
+}
+.account-submit {
+  min-height: 43px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 3px;
+  background: var(--violet);
+  color: #fff;
+  font: 700 12px var(--display);
+  cursor: pointer;
+}
+.account-submit:disabled { opacity: .55; cursor: not-allowed; }
+.auth-mode-toggle, .sign-out-button {
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--violet);
+  font: 700 11px var(--display);
+  cursor: pointer;
+}
+.auth-mode-toggle { display: block; margin-top: 8px; }
+.account-status { min-height: 18px; margin: 14px 0 0; color: #515775; font-size: 11px; line-height: 1.5; }
+.account-status.is-error { color: #a52c46; }
+.player-view-heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.player-view-heading .account-hint { overflow-wrap: anywhere; }
+.profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.profile-fields .progress-field { grid-column: 1 / -1; }
+.party-heading { padding-top: 8px; }
+.party-heading h3 { margin: 0; font-size: 15px; }
+.party-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.party-slot { padding: 12px; border: 1px solid rgba(23, 26, 54, .12); border-radius: 4px; background: #f7f7fc; }
+.party-slot h4 { margin: 0 0 10px; color: var(--violet); font: 500 9px var(--mono); letter-spacing: .5px; }
+.party-slot label { font-size: 10px !important; }
+.party-slot input { min-height: 35px; padding: 7px 8px; font-size: 11px; }
+.save-profile-button { margin-top: 5px; }
+
 .game-dashboard {
   padding: 48px 7.1%;
   display: grid;
@@ -299,6 +370,7 @@ h1 {
   .hero-index { right: 8%; bottom: 20px; }
   .game-menu { padding: 0 4%; overflow-x: auto; }
   .game-menu a { flex: 0 0 auto; }
+  .account-section { padding: 48px 8%; grid-template-columns: 1fr; gap: 24px; }
   .game-dashboard { padding: 38px 8%; grid-template-columns: 1fr; }
   .game-sidebar { grid-template-columns: 1fr 1fr; }
   .download-strip { padding: 22px 8%; grid-template-columns: 1fr 1fr; row-gap: 22px; }
@@ -320,6 +392,11 @@ h1 {
   .scene-label { left: 12px; top: 12px; font-size: 8px; }
   .scene-coordinate { right: 12px; bottom: 12px; font-size: 8px; }
   .game-menu a { padding: 0 13px; font-size: 11px; }
+  .account-section { padding: 40px 6%; }
+  .account-panel { padding: 20px; }
+  .party-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .profile-fields { grid-template-columns: 1fr; }
+  .profile-fields .progress-field { grid-column: auto; }
   .game-dashboard { padding: 30px 6%; }
   .game-sidebar { grid-template-columns: 1fr; }
   .news-art { height: 190px; }

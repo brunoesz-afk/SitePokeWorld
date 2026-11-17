@@ -19,7 +19,7 @@
         <span class="brand-mark" aria-hidden="true"><span></span></span>
         <span>POKE<span class="brand-accent">WORLD</span></span>
       </a>
-      <a class="top-link" href="#instalar">Como instalar <span aria-hidden="true">↗</span></a>
+      <a class="top-link" href="#conta">Minha conta <span aria-hidden="true">↗</span></a>
     </header>
 
     <main>
@@ -47,10 +47,67 @@
 
       <nav class="game-menu" aria-label="Navegação do jogo">
         <a class="game-menu-primary" href="#inicio">Principal</a>
+        <a href="#conta">Minha conta</a>
         <a href="#novidades">Novidades</a>
         <a href="#instalar">Download</a>
         <a href="#ajuda">Dúvidas</a>
       </nav>
+
+      <section class="account-section" id="conta">
+        <div class="account-heading">
+          <p class="eyebrow dark-eyebrow">SUA JORNADA</p>
+          <h2>Seu personagem,<br>do seu jeito.</h2>
+          <p>Entre para consultar e atualizar seu progresso e os seis Pokémon da sua equipe.</p>
+        </div>
+
+        <div class="account-panel">
+          <div id="auth-view">
+            <h2 id="auth-title">Entrar na minha conta</h2>
+            <p class="account-hint">Use seu e-mail e senha para acessar seus dados.</p>
+            <form id="auth-form">
+              <label for="auth-email">E-mail</label>
+              <input id="auth-email" name="email" type="email" autocomplete="email" required>
+              <label for="auth-password">Senha</label>
+              <input id="auth-password" name="password" type="password" autocomplete="current-password" minlength="6" required>
+              <button class="account-submit" id="auth-submit" type="submit">Entrar</button>
+            </form>
+            <button class="auth-mode-toggle" id="auth-mode-toggle" type="button">Ainda não tem conta? Criar conta</button>
+          </div>
+
+          <div id="player-view" hidden>
+            <div class="player-view-heading">
+              <div>
+                <h2>Meu personagem</h2>
+                <p id="account-email" class="account-hint"></p>
+              </div>
+              <button class="sign-out-button" id="sign-out-button" type="button">Sair</button>
+            </div>
+            <form id="player-form">
+              <div class="profile-fields">
+                <label>Nome do personagem
+                  <input name="player_name" maxlength="60" required>
+                </label>
+                <label>Nível
+                  <input name="player_level" type="number" min="1" max="999" required>
+                </label>
+                <label>Região
+                  <input name="region" maxlength="60" placeholder="Ex.: Kanto">
+                </label>
+                <label class="progress-field">Progresso
+                  <textarea name="progress_note" rows="3" maxlength="1000" placeholder="Insígnias, missões ou onde você parou"></textarea>
+                </label>
+              </div>
+              <div class="party-heading">
+                <h3>Minha equipe</h3>
+                <p>Adicione os seis Pokémon que acompanham você.</p>
+              </div>
+              <div class="party-grid" id="party-grid"></div>
+              <button class="account-submit save-profile-button" type="submit">Salvar personagem e equipe</button>
+            </form>
+          </div>
+          <p class="account-status" id="account-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
 
       <section class="game-dashboard" id="novidades">
         <div class="news-panel">
