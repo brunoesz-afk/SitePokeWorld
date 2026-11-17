@@ -220,7 +220,7 @@ h1 {
 .account-panel h2 { margin: 0; font-size: 18px; }
 .account-hint, .party-heading p { margin: 5px 0 18px; color: var(--muted); font-size: 12px; }
 .account-panel form label { display: grid; gap: 6px; margin-bottom: 14px; color: #505477; font-size: 11px; font-weight: 700; }
-.account-panel input, .account-panel textarea {
+.account-panel input, .account-panel textarea, .account-panel select {
   width: 100%;
   min-height: 40px;
   padding: 9px 11px;
@@ -231,7 +231,7 @@ h1 {
   font: 13px var(--display);
 }
 .account-panel textarea { resize: vertical; }
-.account-panel input:focus-visible, .account-panel textarea:focus-visible, .account-panel button:focus-visible {
+.account-panel input:focus-visible, .account-panel textarea:focus-visible, .account-panel select:focus-visible, .account-panel button:focus-visible {
   outline: 3px solid rgba(98, 91, 208, .35);
   outline-offset: 2px;
 }
@@ -260,15 +260,26 @@ h1 {
 .player-view-heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
 .player-view-heading .account-hint { overflow-wrap: anywhere; }
 .profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
-.profile-fields .progress-field { grid-column: 1 / -1; }
 .party-heading { padding-top: 8px; }
 .party-heading h3 { margin: 0; font-size: 15px; }
 .party-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .party-slot { padding: 12px; border: 1px solid rgba(23, 26, 54, .12); border-radius: 4px; background: #f7f7fc; }
 .party-slot h4 { margin: 0 0 10px; color: var(--violet); font: 500 9px var(--mono); letter-spacing: .5px; }
-.party-slot label { font-size: 10px !important; }
-.party-slot input { min-height: 35px; padding: 7px 8px; font-size: 11px; }
+.party-slot p { min-height: 30px; margin: 0; font-size: 12px; font-weight: 800; }
+.party-slot span { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; }
+.party-slot.is-empty p { color: #777a98; font-weight: 500; }
 .save-profile-button { margin-top: 5px; }
+.game-sync-panel { margin-top: 26px; padding-top: 19px; border-top: 1px solid rgba(23, 26, 54, .12); }
+.game-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.game-stats > div { min-width: 0; padding: 12px; border-radius: 4px; background: #f0f0fa; }
+.game-stats span { display: block; margin-bottom: 5px; color: var(--muted); font: 9px var(--mono); letter-spacing: .5px; }
+.game-stats strong { font-size: 13px; overflow-wrap: anywhere; }
+.game-progress { margin: 17px 0 8px; }
+.game-progress h4 { margin: 0 0 6px; font-size: 11px; }
+.game-progress p { margin: 0 0 13px; color: #68708e; font-size: 11px; line-height: 1.55; }
+.badge-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.badge-chip, .badge-empty { padding: 6px 9px; border: 1px solid rgba(98, 91, 208, .22); border-radius: 3px; background: #f7f7fc; color: var(--violet); font-size: 10px; }
+.badge-empty { color: var(--muted); }
 
 .game-dashboard {
   padding: 48px 7.1%;
@@ -396,7 +407,7 @@ h1 {
   .account-panel { padding: 20px; }
   .party-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .profile-fields { grid-template-columns: 1fr; }
-  .profile-fields .progress-field { grid-column: auto; }
+  .game-stats { grid-template-columns: 1fr; }
   .game-dashboard { padding: 30px 6%; }
   .game-sidebar { grid-template-columns: 1fr; }
   .news-art { height: 190px; }

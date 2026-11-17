@@ -57,7 +57,7 @@
         <div class="account-heading">
           <p class="eyebrow dark-eyebrow">SUA JORNADA</p>
           <h2>Seu personagem,<br>do seu jeito.</h2>
-          <p>Entre para consultar e atualizar seu progresso e os seis Pokémon da sua equipe.</p>
+          <p>Configure seu personagem. O progresso e a equipe serão exibidos a partir dos dados enviados pelo jogo.</p>
         </div>
 
         <div class="account-panel">
@@ -87,23 +87,45 @@
                 <label>Nome do personagem
                   <input name="player_name" maxlength="60" required>
                 </label>
-                <label>Nível
-                  <input name="player_level" type="number" min="1" max="999" required>
+                <label>Gênero
+                  <select name="gender" required>
+                    <option value="">Selecione</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                  </select>
                 </label>
                 <label>Região
-                  <input name="region" maxlength="60" placeholder="Ex.: Kanto">
+                  <select name="region" required>
+                    <option value="">Selecione a região</option>
+                    <option value="Kanto">Kanto (1ª geração)</option>
+                  </select>
                 </label>
-                <label class="progress-field">Progresso
-                  <textarea name="progress_note" rows="3" maxlength="1000" placeholder="Insígnias, missões ou onde você parou"></textarea>
-                </label>
+              </div>
+              <button class="account-submit save-profile-button" type="submit">Salvar personagem</button>
+            </form>
+
+            <section class="game-sync-panel" aria-label="Progresso do jogo">
+              <div class="party-heading">
+                <h3>Progresso do jogo</h3>
+                <p id="game-sync-status">Aguardando integração do jogo.</p>
+              </div>
+              <div class="game-stats">
+                <div><span>REGIÃO</span><strong id="display-region">Kanto</strong></div>
+                <div><span>NÍVEL</span><strong id="display-level">—</strong></div>
+                <div><span>EXPERIÊNCIA</span><strong id="display-experience">—</strong></div>
+              </div>
+              <div class="game-progress">
+                <h4>Jornada</h4>
+                <p id="progress-summary">Após integrar o jogo, o progresso aparecerá aqui.</p>
+                <h4>Insígnias</h4>
+                <div class="badge-list" id="badge-list"></div>
               </div>
               <div class="party-heading">
                 <h3>Minha equipe</h3>
-                <p>Adicione os seis Pokémon que acompanham você.</p>
+                <p>Os seis Pokémon ativos serão carregados do jogo.</p>
               </div>
               <div class="party-grid" id="party-grid"></div>
-              <button class="account-submit save-profile-button" type="submit">Salvar personagem e equipe</button>
-            </form>
+            </section>
           </div>
           <p class="account-status" id="account-status" role="status" aria-live="polite"></p>
         </div>

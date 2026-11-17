@@ -92,6 +92,12 @@ const accountEmail = document.querySelector("#account-email");
 const accountStatus = document.querySelector("#account-status");
 const playerForm = document.querySelector("#player-form");
 const partyGrid = document.querySelector("#party-grid");
+const gameSyncStatus = document.querySelector("#game-sync-status");
+const displayRegion = document.querySelector("#display-region");
+const displayLevel = document.querySelector("#display-level");
+const displayExperience = document.querySelector("#display-experience");
+const progressSummary = document.querySelector("#progress-summary");
+const badgeList = document.querySelector("#badge-list");
 const signOutButton = document.querySelector("#sign-out-button");
 let supabase;
 let isSignUp = false;
@@ -102,66 +108,90 @@ function setAccountStatus(message, isError = false) {
   accountStatus.classList.toggle("is-error", isError);
 }
 
-function renderPartyFields() {
+function renderParty(party) {
   partyGrid.replaceChildren();
+  const partyBySlot = new Map(party.map((pokemon) => [pokemon.slot, pokemon]));
   for (let slot = 1; slot <= 6; slot += 1) {
     const card = document.createElement("div");
     card.className = "party-slot";
+    const pokemon = partyBySlot.get(slot);
+    if (!pokemon) card.classList.add("is-empty");
 
     const title = document.createElement("h4");
-    title.textContent = `Pokémon ${String(slot).padStart(2, "0")}`;
+    title.textContent = `SLOT ${String(slot).padStart(2, "0")}`;
 
-    const nameLabel = document.createElement("label");
-    nameLabel.textContent = "Nome";
-    const nameInput = document.createElement("input");
-    nameInput.name = `pokemon_${slot}_name`;
-    nameInput.maxLength = 60;
-    nameInput.required = true;
-    nameInput.autocomplete = "off";
-    nameLabel.append(nameInput);
+    const name = document.createElement("p");
+    name.textContent = pokemon?.nickname || pokemon?.pokemon_name || "Aguardando integração";
 
-    const levelLabel = document.createElement("label");
-    levelLabel.textContent = "Nível";
-    const levelInput = document.createElement("input");
-    levelInput.name = `pokemon_${slot}_level`;
-    levelInput.type = "number";
-    levelInput.min = "1";
-    levelInput.max = "999";
-    levelInput.placeholder = "Opcional";
-    levelLabel.append(levelInput);
+    const details = document.createElement("span");
+    details.textContent = pokemon ? `Nível ${pokemon.pokemon_level ?? "—"}` : "Sem Pokémon sincronizado";
 
-    card.append(title, nameLabel, levelLabel);
+    card.append(title, name, details);
     partyGrid.append(card);
+  }
+}
+
+function renderBadges(badges) {
+  badgeList.replaceChildren();
+  if (!Array.isArray(badges) || badges.length === 0) {
+    const empty = document.createElement("span");
+    empty.className = "badge-empty";
+    empty.textContent = "Nenhuma insígnia sincronizada";
+    badgeList.append(empty);
+    return;
+  }
+
+  for (const badge of badges) {
+    const item = document.createElement("span");
+    item.className = "badge-chip";
+    item.textContent = badge;
+    badgeList.append(item);
   }
 }
 
 function populatePlayerForm(profile, party) {
   playerForm.elements.player_name.value = profile?.player_name ?? "";
-  playerForm.elements.player_level.value = profile?.player_level ?? "";
-  playerForm.elements.region.value = profile?.region ?? "";
-  playerForm.elements.progress_note.value = profile?.progress_note ?? "";
+  playerForm.elements.gender.value = profile?.gender ?? "";
+  playerForm.elements.region.value = profile?.region ?? "Kanto";
 
-  for (const pokemon of party) {
-    const nameInput = playerForm.elements[`pokemon_${pokemon.slot}_name`];
-    const levelInput = playerForm.elements[`pokemon_${pokemon.slot}_level`];
-    if (nameInput && levelInput) {
-      nameInput.value = pokemon.pokemon_name;
-      levelInput.value = pokemon.pokemon_level ?? "";
-    }
+  const hasGameSync = Boolean(profile?.last_game_sync_at);
+  displayRegion.textContent = profile?.region || "Kanto";
+  displayLevel.textContent = hasGameSync ? profile.player_level ?? "—" : "—";
+  displayExperience.textContent = hasGameSync
+    ? new Intl.NumberFormat("pt-BR").format(profile.experience ?? 0)
+    : "—";
+  progressSummary.textContent =
+    profile?.progress_summary || "Após integrar o jogo, o progresso aparecerá aqui.";
+  if (hasGameSync) {
+    const syncDate = new Date(profile.last_game_sync_at);
+    gameSyncStatus.textContent = Number.isNaN(syncDate.getTime())
+      ? "Dados do jogo sincronizados."
+      : `Última sincronização: ${new Intl.DateTimeFormat("pt-BR", {
+          dateStyle: "short",
+          timeStyle: "short",
+        }).format(syncDate)}`;
+  } else {
+    gameSyncStatus.textContent = "Aguardando integração do jogo.";
   }
+  renderBadges(profile?.badges);
+  renderParty(party);
 }
 
 async function loadPlayer(user) {
   setAccountStatus("Carregando seus dados...");
   const [profileResult, partyResult] = await Promise.all([
-    supabase.from("player_profiles").select("player_name, player_level, region, progress_note").eq("user_id", user.id).maybeSingle(),
-    supabase.from("pokemon_party").select("slot, pokemon_name, pokemon_level").eq("user_id", user.id).order("slot"),
+    supabase.from("player_profiles").select("player_name, gender, region, player_level, experience, progress_summary, badges, last_game_sync_at").eq("user_id", user.id).maybeSingle(),
+    supabase.from("pokemon_party").select("slot, pokemon_name, pokemon_level, species_id, nickname").eq("user_id", user.id).order("slot"),
   ]);
   if (profileResult.error) throw profileResult.error;
   if (partyResult.error) throw partyResult.error;
 
   populatePlayerForm(profileResult.data, partyResult.data);
-  setAccountStatus(profileResult.data ? "Dados carregados." : "Preencha seus dados e salve para começar.");
+  setAccountStatus(
+    profileResult.data
+      ? "Personagem carregado. Após integrar o game, use esta conta para sincronizar o progresso."
+      : "Preencha apenas nome, gênero e região para criar seu personagem."
+  );
 }
 
 async function applySession(session) {
@@ -171,10 +201,12 @@ async function applySession(session) {
   if (!activeUser) {
     accountEmail.textContent = "";
     playerForm.reset();
+    populatePlayerForm(null, []);
     return;
   }
 
   accountEmail.textContent = activeUser.email ?? "";
+  populatePlayerForm(null, []);
   try {
     await loadPlayer(activeUser);
   } catch (error) {
@@ -183,7 +215,8 @@ async function applySession(session) {
 }
 
 async function initializeAccount() {
-  renderPartyFields();
+  renderParty([]);
+  renderBadges([]);
   if (!supabaseUrl || !supabaseAnonKey) {
     authForm.querySelectorAll("input, button").forEach((element) => {
       element.disabled = true;
@@ -252,33 +285,18 @@ playerForm.addEventListener("submit", async (event) => {
     const profile = {
       user_id: activeUser.id,
       player_name: formData.get("player_name").trim(),
-      player_level: Number(formData.get("player_level")),
-      region: formData.get("region").trim() || null,
-      progress_note: formData.get("progress_note").trim() || null,
+      gender: formData.get("gender"),
+      region: formData.get("region"),
     };
-    const party = Array.from({ length: 6 }, (_value, index) => {
-      const slot = index + 1;
-      const level = formData.get(`pokemon_${slot}_level`);
-      return {
-        user_id: activeUser.id,
-        slot,
-        pokemon_name: formData.get(`pokemon_${slot}_name`).trim(),
-        pokemon_level: level ? Number(level) : null,
-      };
-    });
 
-    setAccountStatus("Salvando seu personagem e sua equipe...");
+    setAccountStatus("Salvando seu personagem...");
     const { error: profileError } = await supabase.from("player_profiles").upsert(profile);
     if (profileError) {
       setAccountStatus(`Não foi possível salvar o personagem: ${profileError.message}`, true);
       return;
     }
-    const { error: partyError } = await supabase.from("pokemon_party").upsert(party);
-    if (partyError) {
-      setAccountStatus(`Personagem salvo, mas não foi possível salvar a equipe: ${partyError.message}`, true);
-      return;
-    }
-    setAccountStatus("Personagem e equipe salvos com sucesso.");
+    await loadPlayer(activeUser);
+    setAccountStatus("Personagem salvo. Após integrar o game, ele poderá sincronizar o progresso e a equipe.");
   } catch (error) {
     setAccountStatus(`Não foi possível salvar seus dados: ${error.message}`, true);
   }
