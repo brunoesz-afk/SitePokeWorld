@@ -91,6 +91,7 @@ const playerView = document.querySelector("#player-view");
 const accountEmail = document.querySelector("#account-email");
 const accountStatus = document.querySelector("#account-status");
 const playerForm = document.querySelector("#player-form");
+const saveProfileButton = document.querySelector("#save-profile-button");
 const partyGrid = document.querySelector("#party-grid");
 const gameSyncStatus = document.querySelector("#game-sync-status");
 const displayRegion = document.querySelector("#display-region");
@@ -106,6 +107,15 @@ let activeUser;
 function setAccountStatus(message, isError = false) {
   accountStatus.textContent = message;
   accountStatus.classList.toggle("is-error", isError);
+}
+
+function setProfileLocked(locked) {
+  playerForm.querySelectorAll("input, select").forEach((field) => {
+    field.disabled = locked;
+  });
+  saveProfileButton.disabled = locked;
+  saveProfileButton.textContent = locked ? "Personagem salvo" : "Salvar personagem";
+  playerForm.classList.toggle("is-locked", locked);
 }
 
 function renderParty(party) {
@@ -153,6 +163,7 @@ function populatePlayerForm(profile, party) {
   playerForm.elements.player_name.value = profile?.player_name ?? "";
   playerForm.elements.gender.value = profile?.gender ?? "";
   playerForm.elements.region.value = profile?.region ?? "Kanto";
+  setProfileLocked(Boolean(profile?.player_name && profile?.gender && profile?.region));
 
   const hasGameSync = Boolean(profile?.last_game_sync_at);
   displayRegion.textContent = profile?.region || "Kanto";
@@ -189,7 +200,7 @@ async function loadPlayer(user) {
   populatePlayerForm(profileResult.data, partyResult.data);
   setAccountStatus(
     profileResult.data
-      ? "Personagem carregado. Após integrar o game, use esta conta para sincronizar o progresso."
+      ? "Personagem carregado. Os dados pessoais estão bloqueados após o salvamento."
       : "Preencha apenas nome, gênero e região para criar seu personagem."
   );
 }
@@ -296,7 +307,7 @@ playerForm.addEventListener("submit", async (event) => {
       return;
     }
     await loadPlayer(activeUser);
-    setAccountStatus("Personagem salvo. Após integrar o game, ele poderá sincronizar o progresso e a equipe.");
+    setAccountStatus("Personagem salvo. Nome, gênero e região não podem mais ser alterados.");
   } catch (error) {
     setAccountStatus(`Não foi possível salvar seus dados: ${error.message}`, true);
   }

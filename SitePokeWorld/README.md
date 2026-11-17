@@ -12,6 +12,8 @@ A seção de novidades também mostra a tag da versão, a data de publicação e
 
 A área Minha conta usa Supabase Auth para cadastro/login por e-mail e senha. No site, o jogador informa somente nome, gênero e região inicial; nível, experiência, progresso, insígnias e equipe de seis Pokémon são exibidos a partir do Supabase. O jogo precisa usar a mesma conta Supabase e escrever os dados nessas tabelas para que a sincronização aconteça.
 
+Depois que o perfil é salvo com nome, gênero e região, esses campos ficam bloqueados na interface do site.
+
 1. Crie um projeto no [Supabase](https://supabase.com/).
 2. No SQL Editor, execute `supabase-schema.sql` para criar as tabelas e as políticas RLS. Se o projeto já tinha as tabelas da versão anterior, execute também `supabase-game-sync-migration.sql` para adicionar os campos de sincronização sem apagar os dados.
 3. Em **Project Settings → API**, copie a Project URL e a chave `anon`/publishable. Use a URL base terminada em `.supabase.co`, sem `/rest/v1/`. No arquivo `script.js`, preencha `supabaseUrl` e `supabaseAnonKey` com esses valores.

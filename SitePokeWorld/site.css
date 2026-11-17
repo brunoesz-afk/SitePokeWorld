@@ -245,7 +245,19 @@ h1 {
   font: 700 12px var(--display);
   cursor: pointer;
 }
-.account-submit:disabled { opacity: .55; cursor: not-allowed; }
+.account-submit:disabled { cursor: not-allowed; }
+.account-panel input:disabled, .account-panel select:disabled {
+  border-color: #b7b8cc;
+  background: #d7d8e6;
+  color: #4a4c67;
+  opacity: 1;
+  cursor: not-allowed;
+}
+.account-submit:disabled {
+  background: #42456f;
+  color: #d5d6e5;
+  opacity: 1;
+}
 .auth-mode-toggle, .sign-out-button {
   padding: 8px 0;
   border: 0;
@@ -260,6 +272,10 @@ h1 {
 .player-view-heading { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
 .player-view-heading .account-hint { overflow-wrap: anywhere; }
 .profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.profile-fields label { transition: color .2s ease; }
+#player-form.is-locked .profile-fields label { color: #3d405e; }
+.profile-lock-note { margin: 0 0 12px; color: #777a98; font-size: 10px; }
+#player-form.is-locked .profile-lock-note { color: #4a4c67; }
 .party-heading { padding-top: 8px; }
 .party-heading h3 { margin: 0; font-size: 15px; }
 .party-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
