@@ -80,8 +80,8 @@ async function checkApk() {
 
 checkApk();
 
-const supabaseUrl = "";
-const supabaseAnonKey = "";
+const supabaseUrl = "https://bfgfpsymzycdjzgkhaqx.supabase.co";
+const supabaseAnonKey = "sb_publishable_pW7f4bvF_EVMAMg0-eRjgw_4fHigyUt";
 const authForm = document.querySelector("#auth-form");
 const authTitle = document.querySelector("#auth-title");
 const authSubmit = document.querySelector("#auth-submit");
